@@ -1,0 +1,53 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    container_name: wordpress-stack-1
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${DB_USER} 
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD} 
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_REDIS_HOST', 'redis'); 
+        define('WP_REDIS_PORT', '6379'); 
+    volumes:
+      - /home/docker/wordpress1:/var/www/html
+    networks:
+      - frontend
+      - backend
+
+  db:
+    image: mysql:5.7
+    restart: always
+    container_name: wordpress-db-stack-1
+    environment:
+      MYSQL_DATABASE: ${DB_NAME} 
+      MYSQL_USER: ${DB_USER} 
+      MYSQL_PASSWORD: ${DB_PASSWORD} 
+      MYSQL_RANDOM_ROOT_PASSWORD: ${DB_RANDOM_ROOT_PASSWORD}
+    volumes:
+      - /home/docker/wordpressdb1:/var/lib/mysql
+    networks:
+      - backend
+
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: wordpress-redis-stack-1
+    ports:
+      - 6379:6379
+    networks:
+      - backend
+    volumes:
+      - /home/docker/wordpressredis1:/data
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+    

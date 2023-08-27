@@ -1,0 +1,2 @@
+# :bread: Wordpress-stack DOCKER-COMPOSE
+This is my WordPress stack configuration. It emphasizes security through the use of environment variables to safeguard sensitive information. Additionally, Redis serves as a caching mechanism to optimize the performance of the WordPress site.
