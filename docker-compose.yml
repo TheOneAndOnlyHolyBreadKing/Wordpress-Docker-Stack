@@ -42,6 +42,8 @@ services:
     volumes:
       - /home/docker/nginx-proxy/data:/data
       - /home/docker/nginx-proxy/letsencrypt:/etc/letsencrypt
+     networks:
+      - backend
       
    watchtower:
     image: containrrr/watchtower
